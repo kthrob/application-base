@@ -1,13 +1,12 @@
+import configBuilder from './utils/configBuilder';
 import fs from 'node:fs';
+import loadConfig from './utils/loadConfig';
 import os from 'node:os';
 
-import configBuilder from './utils/configBuilder';
-import loadConfig from './utils/loadConfig';
-
-export default ({ config: _themeConfig = 'src/config.yaml' } = {}) => {
+export default ({ config: _themeConfig = './config/appConfig.yaml' } = {}) => {
   let cfg;
   return {
-    name: 'astrowind-integration',
+    name: 'freemason-integration',
 
     hooks: {
       'astro:config:setup': async ({
@@ -19,9 +18,9 @@ export default ({ config: _themeConfig = 'src/config.yaml' } = {}) => {
         updateConfig,
         addWatchFile,
       }) => {
-        const buildLogger = logger.fork('astrowind');
+        const buildLogger = logger.fork('freemason');
 
-        const virtualModuleId = 'astrowind:config';
+        const virtualModuleId = 'freemason:config';
         const resolvedVirtualModuleId = '\0' + virtualModuleId;
 
         const rawJsonConfig = await loadConfig(_themeConfig);
@@ -36,7 +35,7 @@ export default ({ config: _themeConfig = 'src/config.yaml' } = {}) => {
           vite: {
             plugins: [
               {
-                name: 'vite-plugin-astrowind-config',
+                name: 'vite-plugin-freemason-config',
                 resolveId(id) {
                   if (id === virtualModuleId) {
                     return resolvedVirtualModuleId;
@@ -62,9 +61,9 @@ export default ({ config: _themeConfig = 'src/config.yaml' } = {}) => {
         if (typeof _themeConfig === 'string') {
           addWatchFile(new URL(_themeConfig, config.root));
 
-          buildLogger.info(`Astrowind \`${_themeConfig}\` has been loaded.`);
+          buildLogger.info(`Freemason \`${_themeConfig}\` loaded.`);
         } else {
-          buildLogger.info(`Astrowind config has been loaded.`);
+          buildLogger.info(`Freemason config file loaded.`);
         }
       },
       'astro:config:done': async ({ config }) => {
@@ -73,7 +72,7 @@ export default ({ config: _themeConfig = 'src/config.yaml' } = {}) => {
 
       'astro:build:done': async ({ logger }) => {
         const buildLogger = logger.fork('astrowind');
-        buildLogger.info('Updating `robots.txt` with `sitemap-index.xml` ...');
+        buildLogger.info('Generating "robots.txt" file, using "sitemap-index.xml" file.');
 
         try {
           const outDir = cfg.outDir;

@@ -2,9 +2,9 @@ import { defineConfig, squooshImageService } from 'astro/config';
 import { lazyImagesRehypePlugin, readingTimeRemarkPlugin, responsiveTablesRehypePlugin } from './src/utils/frontmatter.mjs';
 
 import alpinejs from "@astrojs/alpinejs";
-import astrowind from './vendor/integration';
 import compress from 'astro-compress';
 import { fileURLToPath } from 'url';
+import freemason from './integrations/';
 import htmx from 'astro-htmx'
 import icon from 'astro-icon';
 import mdx from '@astrojs/mdx';
@@ -46,8 +46,8 @@ export default defineConfig({
     JavaScript: true,
     SVG: false,
     Logger: 1
-  }), astrowind({
-    config: './src/config.yaml'
+  }), freemason({
+    config: './config/appConfig.yaml'
   }), alpinejs({
     entrypoint: '/config/alpine.config.ts'
   })],

@@ -16,8 +16,8 @@
     "format": "prettier -w .",
     "lint:eslint": "eslint .",
     "prepare": "panda codegen",
-    "schema:gen": "drizzle-kit generate --config='./src/data/drizzle.config.ts'",
-    "schema:migrate": "drizzle-kit push --config='./src/data/drizzle.config.ts'"
+    "db:gen": "drizzle-kit generate --config='./src/data/drizzle.config.ts'",
+    "db:push": "drizzle-kit push --config='./src/data/drizzle.config.ts'"
   },
   "dependencies": {
     "@alpinejs/focus": "^3.14.1",
@@ -39,6 +39,7 @@
     "astro-icon": "^1.1.0",
     "drizzle-orm": "^0.32.0",
     "htmx.org": "^2.0.1",
+    "lenis": "^1.1.6",
     "limax": "4.1.0",
     "lodash.merge": "^4.6.2",
     "lucia": "^3.2.0",

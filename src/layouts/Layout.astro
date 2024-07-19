@@ -1,7 +1,7 @@
 ---
 import '~/assets/styles/index.css';
 
-import { I18N } from 'astrowind:config';
+import { I18N } from 'freemason:config';
 
 import CommonMeta from '~/components/common/CommonMeta.astro';
 import Favicons from '~/components/Favicons.astro';
@@ -15,7 +15,7 @@ import BasicScripts from '~/components/common/BasicScripts.astro';
 // Comment the line below to disable View Transitions
 import { ViewTransitions } from 'astro:transitions';
 
-import type { MetaData as MetaDataType } from '~/types';
+import type { MetaData as MetaDataType } from '~/types/types/types';
 
 export interface Props {
   metadata?: MetaDataType;

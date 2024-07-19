@@ -65,7 +65,8 @@ export async function POST(context: APIContext): Promise<Response> {
     const sessionCookie = lucia.createSessionCookie(session.id);
     context.cookies.set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
 
-    return new Response();
+    // return new Response();
+    return context.redirect('/views/user-home');
   } catch (e) {
     // if (e.message === 'SQLITE_CONSTRAINT_UNIQUE') {
     //   return new Response(

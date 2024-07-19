@@ -3,10 +3,11 @@
   "include": ["src", "src/styled-system", ".astro/"],
   "compilerOptions": {
     "strictNullChecks": true,
+    "strict": true,
     "allowJs": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["src/*"]
+      "~/*": ["src/*"],
     }
   }
 }

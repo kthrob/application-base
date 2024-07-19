@@ -1,9 +1,10 @@
-import type { PaginateFunction } from 'astro';
-import { getCollection } from 'astro:content';
+import { BLOG_BASE, CATEGORY_BASE, POST_PERMALINK_PATTERN, TAG_BASE, cleanSlug, trimSlash } from './permalinks';
+
+import { APP_BLOG } from 'freemason:config';
 import type { CollectionEntry } from 'astro:content';
-import type { Post } from '~/types';
-import { APP_BLOG } from 'astrowind:config';
-import { cleanSlug, trimSlash, BLOG_BASE, POST_PERMALINK_PATTERN, CATEGORY_BASE, TAG_BASE } from './permalinks';
+import type { PaginateFunction } from 'astro';
+import type { Post } from '~/types/types';
+import { getCollection } from 'astro:content';
 
 const generatePermalink = async ({
   id,

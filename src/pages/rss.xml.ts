@@ -1,8 +1,8 @@
-import { getRssString } from '@astrojs/rss';
+import { APP_BLOG, METADATA, SITE } from 'freemason:config';
 
-import { SITE, METADATA, APP_BLOG } from 'astrowind:config';
 import { fetchPosts } from '~/utils/blog';
 import { getPermalink } from '~/utils/permalinks';
+import { getRssString } from '@astrojs/rss';
 
 export const GET = async () => {
   if (!APP_BLOG.isEnabled) {
