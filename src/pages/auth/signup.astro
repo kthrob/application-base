@@ -1,0 +1,64 @@
+---
+
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+    <meta
+      name='viewport'
+      content='width=device-width'
+    />
+    <meta
+      name='generator'
+      content={Astro.generator}
+    />
+    <title>Lucia example</title>
+  </head>
+  <body>
+    <h1>Create an account</h1>
+    <form
+      method='post'
+      action='/api/signup'>
+      <label for='username'>Username</label>
+      <input
+        name='username'
+        id='username'
+      /><br />
+      <label for='password'>Password</label>
+      <input
+        type='password'
+        name='password'
+        id='password'
+      /><br />
+      <label for='email'>Email</label>
+      <input
+        type='email'
+        name='email'
+        id='email'
+      /><br />
+      <button>Continue</button>
+      <p id='form-error'></p>
+    </form>
+    <a href='/auth/login'>Sign in</a>
+  </body>
+</html>
+
+<script>
+  const errorMessageElement = document.getElementById('form-error')!;
+
+  document.forms[0].addEventListener('submit', async e => {
+    e.preventDefault();
+    errorMessageElement.innerText = '';
+    const formElement = e.target as HTMLFormElement;
+    const response = await fetch(formElement.action, {
+      method: formElement.method,
+      body: new FormData(formElement),
+    });
+    if (response.ok) {
+      window.location.href = '/';
+    } else {
+      errorMessageElement.innerText = (await response.json()).error;
+    }
+  });
+</script>
