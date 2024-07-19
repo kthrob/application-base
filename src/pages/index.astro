@@ -2,7 +2,9 @@
 import Layout from '~/layouts/PageLayout.astro';
 import { log } from '~/utils/log';
 import AuthContainer  from '~/components/auth/AuthContainer.astro';
+import {css} from '~/assets/styles/css'
 
+console.log("CSS: ", css())
 const metadata = {
   title: 'App prototype',
   ignoreTitleTemplate: true,
@@ -18,5 +20,5 @@ log.info('APP');
 
 <Layout metadata={metadata}>
 <AuthContainer/>
-  <button class="mt-20" hx-post="/api/signout" hx-target="main">Signout</button>
+  <button class={css({ color: 'blue', fontWeight: 'bold', marginTop: '24'})} hx-post="/api/signout" hx-target="main">Signout</button>
 </Layout>

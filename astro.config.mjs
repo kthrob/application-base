@@ -12,7 +12,6 @@ import netlify from "@astrojs/netlify";
 import partytown from '@astrojs/partytown';
 import path from 'path';
 import sitemap from '@astrojs/sitemap';
-import tailwind from '@astrojs/tailwind';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const hasExternalScripts = false;
@@ -27,9 +26,7 @@ export default defineConfig({
     port: 3000
   },
   security: { checkOrigin: true},
-  integrations: [htmx(),tailwind({
-    applyBaseStyles: false
-  }), sitemap(), mdx(), icon({
+  integrations: [htmx(), sitemap(), mdx(), icon({
     include: {
       tabler: ['*'],
       'flat-color-icons': ['template', 'gallery', 'approval', 'document', 'advertising', 'currency-exchange', 'voice-presentation', 'business-contact', 'database']

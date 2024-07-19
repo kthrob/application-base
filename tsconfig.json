@@ -1,5 +1,6 @@
 {
   "extends": "astro/tsconfigs/base",
+  "include": ["src", "src/styled-system", ".astro/"],
   "compilerOptions": {
     "strictNullChecks": true,
     "allowJs": true,
