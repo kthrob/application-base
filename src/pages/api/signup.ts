@@ -66,7 +66,7 @@ export async function POST(context: APIContext): Promise<Response> {
     context.cookies.set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
 
     // return new Response();
-    return context.redirect('/views/user-home');
+    return context.redirect('/views/user');
   } catch (e) {
     // if (e.message === 'SQLITE_CONSTRAINT_UNIQUE') {
     //   return new Response(
