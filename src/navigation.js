@@ -115,7 +115,7 @@ export const headerData = {
       href: '#',
     },
   ],
-  actions: [{ text: 'Signout', href: getPermalink('/api/signout'), target: '_blank' }],
+  actions: [{ text: 'Signout', href: getPermalink('/'), target: '_blank' }],
 };
 
 export const footerData = {

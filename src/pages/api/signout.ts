@@ -14,5 +14,5 @@ export async function POST(context: APIContext): Promise<Response> {
 	const sessionCookie = lucia.createBlankSessionCookie()
 	context.cookies.set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
 
-	return context.redirect('/auth/login')
+	return context.redirect('/')
 }

@@ -1,20 +1,15 @@
+import { and, eq } from 'drizzle-orm'
+
 import type { APIContext } from 'astro'
 import { Argon2id } from 'oslo/password'
 import {db} from '~/data'
-import { eq } from 'drizzle-orm'
 import { lucia } from '~/auth'
 import { users } from '~/data/schema'
+import { verify } from '@node-rs/argon2';
 
 export async function POST(context: APIContext): Promise<Response> {
 	const formData = await context.request.formData()
   console.log("POST TO LOGIN: ", formData)
-
-	// const username = formData.get('username')
-	// if (typeof username !== 'string' || username.length < 3 || username.length > 31 || !/^[a-z0-9_-]+$/.test(username)) {
-	// 	return new Response('Invalid username', {
-	// 		status: 400,
-	// 	})
-	// }
 
 	const password = formData.get('password')
 	if (typeof password !== 'string' || password.length < 6 || password.length > 255) {
@@ -31,7 +26,7 @@ export async function POST(context: APIContext): Promise<Response> {
 	}
 
 	const existingUser = await db.select().from(users).where(eq(users.email, email))
-	if (!existingUser) {
+	if (!existingUser[0]) {
 		// NOTE:
 		// Returning immediately allows malicious actors to figure out valid usernames from response times,
 		// allowing them to only focus on guessing passwords in brute-force attacks.
@@ -41,22 +36,22 @@ export async function POST(context: APIContext): Promise<Response> {
 		// Since protecting against this is none-trivial,
 		// it is crucial your implementation is protected against brute-force attacks with login throttling etc.
 		// If usernames are public, you may outright tell the user that the username is invalid.
-		return new Response('Incorrect username or password', {
+		return new Response(JSON.stringify({error: 'Incorrect username or password: dev-username'}), {
 			status: 400,
 		})
 	}
 
   console.log("EXISTING USER -----> ", existingUser)
-	if (existingUser[0].hashedPassword) {
-		const validPassword = await new Argon2id().verify(existingUser[0].hashedPassword, password)
+	if (existingUser[0].password_hash) {
+		const validPassword = await verify(existingUser[0].password_hash, password)
 		if (!validPassword) {
-			return new Response('Incorrect username or password', {
+			return new Response(JSON.stringify({error: 'Incorrect username or password: dev-password'}), {
 				status: 400,
 			})
 		}
 	}
 
-	const session = await lucia.createSession(existingUser[0].id, {})
+	const session = await lucia.createSession(existingUser[0].id, {value: 'session-default'})
   console.log("SESSION -----> ", session)
 	const sessionCookie = lucia.createSessionCookie(session.id)
   console.log("SESSION COOKIE -----> ", sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
