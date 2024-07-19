@@ -1,0 +1,80 @@
+---
+const user = Astro.locals.user;
+---
+
+<div id='auth-container'>
+  <!-- SignIn -->
+  <div>
+    <h1>Sign in</h1>
+    <form
+      method='post'
+      action='/api/signin'>
+      <label for='email'>Email</label>
+      <input
+        name='email'
+        id='email'
+      /><br />
+      <label for='password'>Password</label>
+      <input
+        type='password'
+        name='password'
+        id='password'
+      /><br />
+      <button>Continue</button>
+      <p id='signin-form-error'></p>
+    </form>
+    <button hx-trigger="click" hx-get="/auth/signup" hx-target="#auth-container">Create an account</button>
+  </div>
+  <!-- SignUp -->
+  <!-- <div x-show='{!user}'>
+    <h1>Create an account</h1>
+    <form
+      method='post'
+      action='/api/signup'>
+      <label for='username'>Username</label>
+      <input
+        name='username'
+        id='username'
+      /><br />
+      <label for='password'>Password</label>
+      <input
+        type='password'
+        name='password'
+        id='password'
+      /><br />
+      <label for='email'>Email</label>
+      <input
+        type='email'
+        name='email'
+        id='email'
+      /><br />
+      <button>Continue</button>
+      <p id='signup-form-error'></p>
+    </form>
+    <a href='/auth/signin'>Sign in</a>
+  </div> -->
+</div>
+
+<script>
+  const signInFormEl = document.querySelector('form[action="/api/signin"]')!;
+  const signInErrorMessageEl = document.getElementById('signin-form-error')!;
+  // const signUpFormEl = document.querySelector('form[action="/api/signup"]')!;
+  // const signUpErrorMessageEl = document.getElementById('signout-form-error')!;
+
+  signInFormEl.addEventListener('submit', async e => {
+    console.log('form submission, signin');
+    e.preventDefault();
+    signInErrorMessageEl.innerText = '';
+    const formElement = e.target as HTMLFormElement;
+    console.log('Submitted: ', formElement.action);
+    const response = await fetch(formElement.action, {
+      method: formElement.method,
+      body: new FormData(formElement),
+    });
+    if (response.ok) {
+      window.location.href = '/';
+    } else {
+      signInErrorMessageEl.innerText = (await response.json()).error;
+    }
+  });
+</script>

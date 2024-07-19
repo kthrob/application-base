@@ -1,6 +1,7 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import { log } from '~/utils/log';
+import AuthContainer  from '~/components/auth/AuthContainer.astro';
 
 const metadata = {
   title: 'App prototype',
@@ -9,12 +10,13 @@ const metadata = {
 
 //const appEngine = AppEngine();
 log.info('APP');
-const user = Astro.locals.user;
-if (!user) {
-  return Astro.redirect('/auth/login');
-}
+// const user = Astro.locals.user;
+// if (!user) {
+//   return Astro.redirect('/auth/login');
+// }
 ---
 
 <Layout metadata={metadata}>
-  <button hx-post="/api/signout" hx-target="main">Signout</button>
+<AuthContainer/>
+  <button class="mt-20" hx-post="/api/signout" hx-target="main">Signout</button>
 </Layout>

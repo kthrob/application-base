@@ -1,17 +1,24 @@
 ---
+import { log } from '~/utils/log';
+if (Astro.locals.user) {
+  return Astro.redirect('/');
+}
+
 export const partial = true;
+
+log.info('Sign in page - user: ', Astro.locals.user ? Astro.locals.user : 'null');
 ---
 
 <div>
-  <h1>Create an account</h1>
+  <h1>Sign in</h1>
   <form
-    id='sign-up-form'
+    id="sign-in-form"
     method='post'
-    action='/api/signup'>
-    <label for='username'>Username</label>
+    action='/api/sigin'>
+    <label for='email'>Email</label>
     <input
-      name='username'
-      id='username'
+      name='email'
+      id='email'
     /><br />
     <label for='password'>Password</label>
     <input
@@ -19,30 +26,25 @@ export const partial = true;
       name='password'
       id='password'
     /><br />
-    <label for='email'>Email</label>
-    <input
-      type='email'
-      name='email'
-      id='email'
-    /><br />
     <button>Continue</button>
     <p id='form-error'></p>
   </form>
   <button
     hx-trigger='click'
-    hx-get='/auth/signin'
+    hx-get='/auth/signup'
     hx-target='#auth-container'
-    >Signin</button
+    >Signup</button
   >
 </div>
-
 <script>
   const errorMessageElement = document.getElementById('form-error')!;
 
   document.forms[0].addEventListener('submit', async e => {
+    console.log('form submission, signin');
     e.preventDefault();
     errorMessageElement.innerText = '';
     const formElement = e.target as HTMLFormElement;
+    console.log('Submitted: ', formElement.action);
     const response = await fetch(formElement.action, {
       method: formElement.method,
       body: new FormData(formElement),
